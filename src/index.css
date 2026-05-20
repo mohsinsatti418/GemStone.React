@@ -1,0 +1,168 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+/* ─────────────────────────────────────────────
+   CSS Custom Properties (Design Tokens)
+   These variables are used by every component
+   via var(--variable-name)
+───────────────────────────────────────────── */
+
+:root {
+
+    --nav-bg: 248,250,249;
+    
+  /* Emerald green scale — primary brand colour */
+  --gem-900: #0a0f0d;
+  --gem-800: #111a16;
+  --gem-700: #1a2820;
+  --gem-600: #243a2e;
+  --gem-500: #2e5040;   /* primary action colour — buttons, active states */
+  --gem-400: #3d6b54;   /* hover state of primary */
+  --gem-300: #5a9478;   /* focus rings, active borders */
+  --gem-200: #8bbda4;
+  --gem-100: #c4ddd3;
+  --gem-50:  #eef6f2;   /* light badge backgrounds */
+
+  /* Champagne gold scale — accent colour */
+  --gold-900: #2a1f00;
+  --gold-700: #7a5c10;  /* dark gold text */
+  --gold-500: #c49a2e;  /* primary gold — certification badges, stars */
+  --gold-400: #d4ae4a;  /* thumbnail star, cover labels */
+  --gold-300: #e2c56e;  /* gold borders */
+  --gold-200: #efd99a;
+  --gold-100: #f7edcc;
+  --gold-50:  #fdf8ec;  /* light gold backgrounds */
+
+  /* Surface layers — background elevation system */
+  --surface-0:   #ffffff;   /* cards, inputs — closest to user */
+  --surface-1:   #f8faf9;   /* page background */
+  --surface-2:   #f0f4f2;   /* subtle inset backgrounds */
+  --surface-3:   #e4ece8;   /* hover backgrounds, dividers */
+
+  /* Text colours — three levels of hierarchy */
+  --text-primary:   #0f1e18;  /* headings, important values */
+  --text-secondary: #3d5548;  /* labels, descriptions */
+  --text-muted:     #7a9589;  /* hints, placeholders, timestamps */
+
+  /* Borders */
+  --border:        #d4e0da;   /* default borders on cards and inputs */
+  --border-strong: #b0c8be;   /* dashed upload zones, focused inputs */
+
+  /* Border radius scale */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  /* Shadow scale */
+  --shadow-sm: 0 1px 3px rgba(10,15,13,0.08), 0 1px 2px rgba(10,15,13,0.04);
+  --shadow-md: 0 4px 16px rgba(10,15,13,0.10), 0 2px 6px rgba(10,15,13,0.06);
+  --shadow-lg: 0 12px 40px rgba(10,15,13,0.14), 0 4px 12px rgba(10,15,13,0.08);
+
+  /* Typography */
+  --font-display: 'Cormorant Garamond', Georgia, serif;
+  --font-body:    'DM Sans', system-ui, sans-serif;
+
+  /* Layout */
+  --nav-height: 68px;
+}
+
+/* ─────────────────────────────────────────────
+   Dark mode overrides
+   Applied when App.jsx sets:
+   document.documentElement.setAttribute('data-theme', 'dark')
+───────────────────────────────────────────── */
+
+[data-theme="dark"] {
+  --surface-0:   #0f1a15;
+  --surface-1:   #141f1a;
+  --surface-2:   #1a2820;
+  --surface-3:   #243a2e;
+
+  --text-primary:   #eef6f2;
+  --text-secondary: #a8c8b8;
+  --text-muted:     #6b9080;
+
+  --border:        #2e4a3a;
+  --border-strong: #3d6050;
+
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.4);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,0.5);
+}
+
+/* ─────────────────────────────────────────────
+   Base reset
+───────────────────────────────────────────── */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--surface-1);
+  color: var(--text-primary);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.3s ease, color 0.3s ease;
+}
+
+/* ─────────────────────────────────────────────
+   Scrollbar styling
+───────────────────────────────────────────── */
+
+::-webkit-scrollbar        { width: 6px; }
+::-webkit-scrollbar-track  { background: var(--surface-2); }
+::-webkit-scrollbar-thumb  { background: var(--gem-300); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gem-400); }
+
+/* ─────────────────────────────────────────────
+   Focus ring — keyboard navigation
+───────────────────────────────────────────── */
+
+*:focus-visible {
+  outline: 2px solid var(--gold-400);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─────────────────────────────────────────────
+   Skeleton shimmer — used for loading states
+───────────────────────────────────────────── */
+
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position:  400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--surface-2) 25%,
+    var(--surface-3) 50%,
+    var(--surface-2) 75%
+  );
+  background-size: 400px 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* ─────────────────────────────────────────────
+   Card hover lift effect
+───────────────────────────────────────────── */
+
+.card-lift {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-lg);
+}
