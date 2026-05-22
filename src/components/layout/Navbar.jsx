@@ -215,7 +215,7 @@ export default function Navbar({ theme, onToggleTheme }) {
               fontSize: '20px', fontWeight: 600,
               color: 'var(--text-primary)', letterSpacing: '0.02em',
             }}>
-              GemVault
+              GMSTONES
             </span>
             <span style={{
               fontSize: '9px', letterSpacing: '0.18em',
