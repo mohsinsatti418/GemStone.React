@@ -38,7 +38,7 @@ export default function App() {
         onToggleTheme={toggleTheme}
       />
 
-      <main className="max-w-7xl mx-auto px-4 py-8">
+      <main  className="container py-8">
         <AppRoutes />
       </main>
     </div>
