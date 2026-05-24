@@ -55,7 +55,7 @@ function GemCard({ gem, onDelete }) {
   const [addedFeedback, setAddedFeedback] = useState(false)
 
   const typeStyle    = gemTypeStyle(gem.gemType)
-  const thumbnailSrc = gem.thumbnailUrl ? `${API_ORIGIN}${gem.thumbnailUrl}` : null
+  const thumbnailSrc = gem.thumbnailUrl || null
   const inCart       = isInCart(gem.id)
 
   const handleAddToCart = () => {
