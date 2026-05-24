@@ -118,7 +118,7 @@ export default function Login() {
             Welcome back
           </h1>
           <p style={{ fontSize: '14px', color: 'var(--text-muted)' }}>
-            Sign in to the GemVault admin portal
+            Sign in to the Gems portal
           </p>
         </div>
 
