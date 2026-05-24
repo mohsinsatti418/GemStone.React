@@ -180,7 +180,7 @@ export default function Navbar({ theme, onToggleTheme }) {
         top: 0,
         zIndex: 100,
         height: 'var(--nav-height)',
-        background: scrolled ? 'rgba(248,250,249,0.88)' : 'var(--surface-0)',
+        background: 'var(--surface-0)',
         backdropFilter: scrolled ? 'blur(14px)' : 'none',
         borderBottom: `1px solid ${scrolled ? 'var(--border)' : 'var(--surface-3)'}`,
         transition: 'background 0.3s ease, border-color 0.3s ease',
