@@ -363,12 +363,12 @@ function ImageUploader({ images, onAdd, onRemove, thumbnailIndex, onThumbnailCha
 
 function validate(form) {
   const errs = {}
-  if (!form.name.trim())        errs.name           = 'Name is required'
-  if (!form.sku.trim())         errs.sku             = 'SKU is required'
-  if (!form.gemType)            errs.gemType         = 'Gem type is required'
-  if (!form.color.trim())       errs.color           = 'Color is required'
-  if (!form.clarity)            errs.clarity         = 'Clarity is required'
-  if (!form.shape)              errs.shape           = 'Shape is required'
+  if (!form.name.trim()) errs.name = 'Name is required'
+  if (!form.sku.trim()) errs.sku = 'SKU is required'
+  if (!form.gemType) errs.gemType = 'Gem type is required'
+  if (!form.color.trim()) errs.color = 'Color is required'
+  if (!form.clarity) errs.clarity = 'Clarity is required'
+  if (!form.shape) errs.shape = 'Shape is required'
   if (!form.weightInCarats || Number(form.weightInCarats) <= 0)
     errs.weightInCarats = 'Weight must be greater than 0'
   if (!form.price || Number(form.price) <= 0)
@@ -392,13 +392,13 @@ const INITIAL_FORM = {
 }
 
 export default function GemStoneCreate() {
-  const navigate       = useNavigate()
-  const toast          = useToast()
+  const navigate = useNavigate()
+  const toast = useToast()
   const createMutation = useCreateGemStone()
 
-  const [form, setForm]           = useState(INITIAL_FORM)
-  const [errors, setErrors]       = useState({})
-  const [images, setImages]       = useState([])
+  const [form, setForm] = useState(INITIAL_FORM)
+  const [errors, setErrors] = useState({})
+  const [images, setImages] = useState([])
   const [thumbnailIndex, setThumb] = useState(0)
   const [submitted, setSubmitted] = useState(false)
 
@@ -430,25 +430,25 @@ export default function GemStoneCreate() {
 
     // Build FormData — field names match your GemStoneCreateVM exactly
     const fd = new FormData()
-    fd.append('Name',              form.name.trim())
-    fd.append('SKU',               form.sku.trim())
-    fd.append('GemType',           form.gemType)
-    fd.append('WeightInCarats',    form.weightInCarats)
-    fd.append('Color',             form.color.trim())
-    fd.append('Clarity',           form.clarity)
-    fd.append('Cut',               form.cut)
-    fd.append('Shape',             form.shape)
-    fd.append('LengthMM',          form.lengthMM  || '0')
-    fd.append('WidthMM',           form.widthMM   || '0')
-    fd.append('DepthMM',           form.depthMM   || '0')
-    fd.append('Origin',            form.origin.trim())
-    fd.append('Treatment',         form.treatment.trim())
-    fd.append('IsNatural',         form.isNatural)
-    fd.append('CertificationLab',  form.certificationLab.trim())
+    fd.append('Name', form.name.trim())
+    fd.append('SKU', form.sku.trim())
+    fd.append('GemType', form.gemType)
+    fd.append('WeightInCarats', form.weightInCarats)
+    fd.append('Color', form.color.trim())
+    fd.append('Clarity', form.clarity)
+    fd.append('Cut', form.cut)
+    fd.append('Shape', form.shape)
+    fd.append('LengthMM', form.lengthMM || '0')
+    fd.append('WidthMM', form.widthMM || '0')
+    fd.append('DepthMM', form.depthMM || '0')
+    fd.append('Origin', form.origin.trim())
+    fd.append('Treatment', form.treatment.trim())
+    fd.append('IsNatural', form.isNatural)
+    fd.append('CertificationLab', form.certificationLab.trim())
     fd.append('CertificateNumber', form.certificateNumber.trim())
-    fd.append('Price',             form.price)
-    fd.append('StockQuantity',     form.stockQuantity)
-    fd.append('Description',       form.description.trim())
+    fd.append('Price', form.price)
+    fd.append('StockQuantity', form.stockQuantity)
+    fd.append('Description', form.description.trim())
 
     // images — List<IFormFile> images in your controller
     images.forEach(file => fd.append('images', file))
@@ -458,10 +458,12 @@ export default function GemStoneCreate() {
 
     try {
       const res = await createMutation.mutateAsync(fd)
-      toast.success('Gemstone created successfully')
-      navigate(`/gemstones/${res.data.id}`)
+      toast.success('Gemstone added to your vault')
+      setTimeout(() => {
+        navigate(`/`)
+      }, 800)
     } catch (err) {
-      toast.error(err.message)
+      toast.error(err.message || 'Something went wrong. Please try again.')
     }
   }
 

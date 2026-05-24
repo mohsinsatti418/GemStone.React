@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useToast } from '../../context/ToastContext'
 
 // ─────────────────────────────────────────────
 // POST /api/Auth/register
@@ -72,14 +73,14 @@ function validate(form) {
 function EyeIcon({ open }) {
   return open ? (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-      <circle cx="12" cy="12" r="3"/>
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+      <circle cx="12" cy="12" r="3" />
     </svg>
   ) : (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/>
-      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/>
-      <line x1="1" y1="1" x2="23" y2="23"/>
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94" />
+      <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19" />
+      <line x1="1" y1="1" x2="23" y2="23" />
     </svg>
   )
 }
@@ -113,11 +114,11 @@ function PasswordStrength({ password }) {
   if (!password) return null
 
   let strength = 0
-  if (password.length >= 6)                       strength++
-  if (password.length >= 10)                      strength++
-  if (/[A-Z]/.test(password))                     strength++
-  if (/[0-9]/.test(password))                     strength++
-  if (/[^A-Za-z0-9]/.test(password))              strength++
+  if (password.length >= 6) strength++
+  if (password.length >= 10) strength++
+  if (/[A-Z]/.test(password)) strength++
+  if (/[0-9]/.test(password)) strength++
+  if (/[^A-Za-z0-9]/.test(password)) strength++
 
   const labels = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very strong']
   const colors = ['', '#ef4444', '#f97316', '#eab308', '#22c55e', '#16a34a']
@@ -151,15 +152,16 @@ const INITIAL = { username: '', email: '', password: '', confirmPassword: '' }
 
 export default function Register() {
   const navigate = useNavigate()
-  const { login, isLoggedIn } = useAuth()
+  const toast = useToast()
+  const { isLoggedIn } = useAuth()
 
-  const [form,       setForm]       = useState(INITIAL)
-  const [errors,     setErrors]     = useState({})
-  const [apiError,   setApiError]   = useState('')
-  const [showPass,   setShowPass]   = useState(false)
-  const [showConf,   setShowConf]   = useState(false)
-  const [isLoading,  setIsLoading]  = useState(false)
-  const [submitted,  setSubmitted]  = useState(false)
+  const [form, setForm] = useState(INITIAL)
+  const [errors, setErrors] = useState({})
+  const [apiError, setApiError] = useState('')
+  const [showPass, setShowPass] = useState(false)
+  const [showConf, setShowConf] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
+  const [submitted, setSubmitted] = useState(false)
 
   // Already logged in — go home
   if (isLoggedIn) { navigate('/', { replace: true }); return null }
@@ -192,9 +194,8 @@ export default function Register() {
         form.password,
         form.confirmPassword,
       )
-      // Auto-login after successful registration
-      login(data.token)
-      navigate('/', { replace: true })
+      toast.success('Account created! Please sign in.')
+      setTimeout(() => navigate('/login', { replace: true }), 800)
     } catch (err) {
       setApiError(err.message)
     } finally {
@@ -227,11 +228,11 @@ export default function Register() {
         {/* Logo + heading */}
         <div style={{ textAlign: 'center', marginBottom: '32px' }}>
           <svg width="44" height="44" viewBox="0 0 32 32" fill="none" style={{ marginBottom: '14px' }}>
-            <polygon points="16,2 30,12 24,30 8,30 2,12" fill="none" stroke="var(--gold-400)" strokeWidth="1.5" strokeLinejoin="round"/>
-            <polygon points="16,8 24,13 21,24 11,24 8,13" fill="var(--gold-400)" opacity="0.18"/>
-            <line x1="2"  y1="12" x2="30" y2="12" stroke="var(--gold-400)" strokeWidth="1"   opacity="0.6"/>
-            <line x1="8"  y1="30" x2="16" y2="12" stroke="var(--gold-400)" strokeWidth="0.8" opacity="0.5"/>
-            <line x1="24" y1="30" x2="16" y2="12" stroke="var(--gold-400)" strokeWidth="0.8" opacity="0.5"/>
+            <polygon points="16,2 30,12 24,30 8,30 2,12" fill="none" stroke="var(--gold-400)" strokeWidth="1.5" strokeLinejoin="round" />
+            <polygon points="16,8 24,13 21,24 11,24 8,13" fill="var(--gold-400)" opacity="0.18" />
+            <line x1="2" y1="12" x2="30" y2="12" stroke="var(--gold-400)" strokeWidth="1" opacity="0.6" />
+            <line x1="8" y1="30" x2="16" y2="12" stroke="var(--gold-400)" strokeWidth="0.8" opacity="0.5" />
+            <line x1="24" y1="30" x2="16" y2="12" stroke="var(--gold-400)" strokeWidth="0.8" opacity="0.5" />
           </svg>
           <h1 style={{
             fontFamily: 'var(--font-display)',
@@ -265,9 +266,9 @@ export default function Register() {
               color: '#c92a2a', fontSize: '13.5px', lineHeight: 1.5,
             }}>
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ flexShrink: 0, marginTop: '1px' }}>
-                <circle cx="12" cy="12" r="10"/>
-                <line x1="12" y1="8"  x2="12" y2="12"/>
-                <line x1="12" y1="16" x2="12.01" y2="16"/>
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="12" />
+                <line x1="12" y1="16" x2="12.01" y2="16" />
               </svg>
               {apiError}
             </div>
@@ -288,7 +289,7 @@ export default function Register() {
                 maxLength={100}
                 style={inputStyle(!!errors.username)}
                 onFocus={e => (e.target.style.borderColor = 'var(--gem-300)')}
-                onBlur={e  => (e.target.style.borderColor = errors.username ? '#fca5a5' : 'var(--border)')}
+                onBlur={e => (e.target.style.borderColor = errors.username ? '#fca5a5' : 'var(--border)')}
               />
             </Field>
 
@@ -304,7 +305,7 @@ export default function Register() {
                 maxLength={200}
                 style={inputStyle(!!errors.email)}
                 onFocus={e => (e.target.style.borderColor = 'var(--gem-300)')}
-                onBlur={e  => (e.target.style.borderColor = errors.email ? '#fca5a5' : 'var(--border)')}
+                onBlur={e => (e.target.style.borderColor = errors.email ? '#fca5a5' : 'var(--border)')}
               />
             </Field>
 
@@ -322,13 +323,13 @@ export default function Register() {
                     maxLength={100}
                     style={{ ...inputStyle(!!errors.password), paddingRight: '40px' }}
                     onFocus={e => (e.target.style.borderColor = 'var(--gem-300)')}
-                    onBlur={e  => (e.target.style.borderColor = errors.password ? '#fca5a5' : 'var(--border)')}
+                    onBlur={e => (e.target.style.borderColor = errors.password ? '#fca5a5' : 'var(--border)')}
                   />
                   <button
                     type="button"
                     onClick={() => setShowPass(v => !v)}
                     aria-label={showPass ? 'Hide password' : 'Show password'}
-                    style={{ position:'absolute',right:'12px',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'var(--text-muted)',display:'flex',alignItems:'center',padding:'2px' }}
+                    style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', padding: '2px' }}
                     onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
                     onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
                   >
@@ -353,13 +354,13 @@ export default function Register() {
                   maxLength={100}
                   style={{ ...inputStyle(!!errors.confirmPassword), paddingRight: '40px' }}
                   onFocus={e => (e.target.style.borderColor = 'var(--gem-300)')}
-                  onBlur={e  => (e.target.style.borderColor = errors.confirmPassword ? '#fca5a5' : 'var(--border)')}
+                  onBlur={e => (e.target.style.borderColor = errors.confirmPassword ? '#fca5a5' : 'var(--border)')}
                 />
                 <button
                   type="button"
                   onClick={() => setShowConf(v => !v)}
                   aria-label={showConf ? 'Hide password' : 'Show password'}
-                  style={{ position:'absolute',right:'12px',top:'50%',transform:'translateY(-50%)',background:'none',border:'none',cursor:'pointer',color:'var(--text-muted)',display:'flex',alignItems:'center',padding:'2px' }}
+                  style={{ position: 'absolute', right: '12px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', padding: '2px' }}
                   onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-secondary)')}
                   onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
                 >
@@ -389,7 +390,7 @@ export default function Register() {
             >
               {isLoading && (
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" style={{ animation: 'spin 0.8s linear infinite' }}>
-                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                  <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83" />
                 </svg>
               )}
               {isLoading ? 'Creating account…' : 'Create account'}
@@ -398,18 +399,18 @@ export default function Register() {
           </form>
 
           {/* Divider */}
-          <div style={{ display:'flex',alignItems:'center',gap:'12px',margin:'20px 0 0' }}>
-            <div style={{ flex:1,height:'1px',background:'var(--border)' }} />
-            <span style={{ fontSize:'12px',color:'var(--text-muted)' }}>or</span>
-            <div style={{ flex:1,height:'1px',background:'var(--border)' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', margin: '20px 0 0' }}>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
+            <span style={{ fontSize: '12px', color: 'var(--text-muted)' }}>or</span>
+            <div style={{ flex: 1, height: '1px', background: 'var(--border)' }} />
           </div>
 
           {/* Login link */}
-          <p style={{ textAlign:'center',marginTop:'16px',fontSize:'14px',color:'var(--text-secondary)' }}>
+          <p style={{ textAlign: 'center', marginTop: '16px', fontSize: '14px', color: 'var(--text-secondary)' }}>
             Already have an account?{' '}
             <Link
               to="/login"
-              style={{ color:'var(--gem-500)',fontWeight:500,textDecoration:'none' }}
+              style={{ color: 'var(--gem-500)', fontWeight: 500, textDecoration: 'none' }}
               onMouseEnter={e => (e.currentTarget.style.textDecoration = 'underline')}
               onMouseLeave={e => (e.currentTarget.style.textDecoration = 'none')}
             >
@@ -419,10 +420,10 @@ export default function Register() {
         </div>
 
         {/* Back to catalog */}
-        <p style={{ textAlign:'center',marginTop:'20px',fontSize:'14px',color:'var(--text-muted)' }}>
+        <p style={{ textAlign: 'center', marginTop: '20px', fontSize: '14px', color: 'var(--text-muted)' }}>
           <Link
             to="/"
-            style={{ color:'var(--text-muted)',textDecoration:'none' }}
+            style={{ color: 'var(--text-muted)', textDecoration: 'none' }}
             onMouseEnter={e => (e.currentTarget.style.color = 'var(--text-primary)')}
             onMouseLeave={e => (e.currentTarget.style.color = 'var(--text-muted)')}
           >

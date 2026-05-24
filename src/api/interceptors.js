@@ -145,11 +145,11 @@ apiClient.interceptors.response.use(
     //
     // We handle all three:
 
-    let message = 'Something went wrong. Please try again.'
+    let message = 'An unexpected error occurred. Please try again.'
 
     if (!error.response) {
       // No response at all — server unreachable or timeout
-      message = 'Cannot reach the server. Check your connection.'
+      message = 'Unable to connect. Please check your internet connection and try again.'
     } else if (data?.message) {
       // Shape 1: our custom error message
       message = data.message
@@ -185,23 +185,23 @@ apiClient.interceptors.response.use(
       // can listen to and redirect to /login
       window.dispatchEvent(new CustomEvent('auth:unauthorized'))
 
-      message = 'Your session has expired. Please sign in again.'
+      message = 'Your session has ended. Please sign in to continue.'
     }
 
     if (status === 403) {
       // 403 Forbidden — token is valid but role is wrong
       // e.g. a regular User trying to DELETE a gemstone
-      message = 'You do not have permission to do that.'
+      message = 'You are not authorised to perform this action.'
     }
 
     if (status === 404) {
       // 404 Not Found — resource does not exist
-      message = data?.message || 'The requested item was not found.'
+      message = data?.message || 'This item no longer exists or has been removed.'
     }
 
     if (status === 500) {
       // 500 Internal Server Error — bug in your .NET API
-      message = 'Server error. Please try again later.'
+      message = 'Our server encountered a problem. Please try again in a moment.'
     }
 
     // ── Re-throw as a proper Error object ─────

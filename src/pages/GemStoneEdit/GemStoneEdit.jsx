@@ -246,7 +246,7 @@ export default function GemStoneEdit() {
     try {
       await updateMutation.mutateAsync(fd)
       toast.success('Gemstone updated successfully')
-      navigate(`/gemstones/${id}`)
+      setTimeout(() => navigate(`/`), 800)
     } catch (err) {
       toast.error(err.message)
     }

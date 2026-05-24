@@ -183,7 +183,6 @@ export default function GemStoneList() {
   const { data: gems = [], isLoading, isError, error } = useGemStones()
   const deleteMutation = useDeleteGemStone()
   const { isAdmin }    = useAuth()
-  const { cartCount }  = useCart()
   const toast          = useToast()
 
   const [search,      setSearch]      = useState('')
@@ -217,11 +216,6 @@ export default function GemStoneList() {
           <p style={{ fontSize:'15px',color:'var(--text-muted)',marginTop:'6px' }}>{isLoading?'Loading…':`${gems.filter(g=>!g.isDeleted).length} stones in collection`}</p>
         </div>
         <div style={{ display:'flex',alignItems:'center',gap:'12px' }}>
-          {!isAdmin && cartCount > 0 && (
-            <Link to="/cart" style={{ display:'flex',alignItems:'center',gap:'8px',padding:'8px 16px',borderRadius:'var(--radius-md)',border:'1px solid var(--gold-300)',background:'var(--gold-50)',color:'var(--gold-700)',textDecoration:'none',fontSize:'14px',fontWeight:500,transition:'all 0.15s' }} onMouseEnter={e=>{e.currentTarget.style.background='var(--gold-100)';e.currentTarget.style.borderColor='var(--gold-400)'}} onMouseLeave={e=>{e.currentTarget.style.background='var(--gold-50)';e.currentTarget.style.borderColor='var(--gold-300)'}}>
-              <CartIcon /> Cart <span style={{ background:'var(--gold-500)',color:'#fff',fontSize:'11px',fontWeight:700,padding:'1px 7px',borderRadius:'99px' }}>{cartCount}</span>
-            </Link>
-          )}
           {isAdmin && (
             <label style={{ display:'flex',alignItems:'center',gap:'8px',cursor:'pointer',fontSize:'13px',color:'var(--text-secondary)' }}>
               <input type="checkbox" checked={showDeleted} onChange={e=>setShowDeleted(e.target.checked)} style={{ accentColor:'var(--gem-400)',width:'15px',height:'15px' }} />
