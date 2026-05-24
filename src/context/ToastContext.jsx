@@ -11,22 +11,22 @@ let _id = 0
 function Toast({ toast, onDismiss }) {
   const styles = {
     success: {
-      bg:     'var(--gem-50)',
-      border: 'var(--gem-300)',
-      icon:   '✓',
-      iconBg: 'var(--gem-500)',
+      bg: '#eef6f2',
+      border: '#5a9478',
+      icon: '✓',
+      iconBg: '#2e5040',
     },
     error: {
-      bg:     '#fef2f2',
+      bg: '#fef2f2',
       border: '#fca5a5',
-      icon:   '✕',
+      icon: '✕',
       iconBg: '#ef4444',
     },
     info: {
-      bg:     'var(--gold-50)',
-      border: 'var(--gold-300)',
-      icon:   'i',
-      iconBg: 'var(--gold-500)',
+      bg: '#fdf8ec',
+      border: '#e2c56e',
+      icon: 'i',
+      iconBg: '#c49a2e',
     },
   }
 
@@ -73,7 +73,7 @@ function Toast({ toast, onDismiss }) {
       <span
         style={{
           fontSize: '14px',
-          color: 'var(--text-primary)',
+          color: '#0f1e18',
           lineHeight: 1.5,
           flex: 1,
         }}
@@ -89,7 +89,7 @@ function Toast({ toast, onDismiss }) {
           background: 'none',
           border: 'none',
           cursor: 'pointer',
-          color: 'var(--text-muted)',
+          color: '#7a9589',
           fontSize: '18px',
           lineHeight: 1,
           padding: '0 2px',
@@ -126,9 +126,9 @@ export function ToastProvider({ children }) {
 
   // Expose a simple toast.success / toast.error / toast.info API
   const toast = {
-    success: (msg, duration)  => add(msg, 'success', duration),
-    error:   (msg, duration)  => add(msg, 'error',   duration),
-    info:    (msg, duration)  => add(msg, 'info',    duration),
+    success: (msg, duration) => add(msg, 'success', duration),
+    error: (msg, duration) => add(msg, 'error', duration),
+    info: (msg, duration) => add(msg, 'info', duration),
   }
 
   return (
