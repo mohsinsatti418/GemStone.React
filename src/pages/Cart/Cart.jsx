@@ -223,6 +223,23 @@ function CartRow({ item, onRemove, onQuantityChange }) {
 //           notes (optional)
 // ─────────────────────────────────────────────
 
+// PASTE HERE — outside and above EnquiryModal
+function Field({ label, required, error, children }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+      <label style={{
+        fontSize: '13px', fontWeight: 500,
+        color: error ? '#c92a2a' : 'var(--text-secondary)',
+      }}>
+        {label}
+        {required && <span style={{ color: 'var(--gold-500)', marginLeft: '3px' }}>*</span>}
+      </label>
+      {children}
+      {error && <span style={{ fontSize: '11.5px', color: '#c92a2a' }}>{error}</span>}
+    </div>
+  )
+}
+
 function EnquiryModal({ items, subtotal, tax, grandTotal, onClose, onSuccess }) {
   const [form, setForm] = useState({
     fullName: '', phone: '', address: '', email: '', notes: '',
@@ -339,17 +356,6 @@ function EnquiryModal({ items, subtotal, tax, grandTotal, onClose, onSuccess }) 
     }
   }
 
-  // ── Field component ───────────────────────
-  const Field = ({ label, required, error, children }) => (
-    <div style={{ display:'flex',flexDirection:'column',gap:'5px' }}>
-      <label style={{ fontSize:'13px',fontWeight:500,color:error?'#c92a2a':'var(--text-secondary)' }}>
-        {label}
-        {required && <span style={{ color:'var(--gold-500)',marginLeft:'3px' }}>*</span>}
-      </label>
-      {children}
-      {error && <span style={{ fontSize:'11.5px',color:'#c92a2a' }}>{error}</span>}
-    </div>
-  )
 
   const inputStyle = (hasError) => ({
     padding: '9px 12px',
