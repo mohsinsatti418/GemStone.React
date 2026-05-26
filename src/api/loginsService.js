@@ -9,6 +9,7 @@ export async function loginRequest(username, password) {
     const res = await api.post('/auth/login', {
       username,
       password,
+      captchaToken
     })
 
     // Returns:

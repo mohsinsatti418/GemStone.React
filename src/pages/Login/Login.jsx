@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 // ─────────────────────────────────────────────
 // API call — matches your AuthController exactly
@@ -56,6 +57,7 @@ export default function Login() {
   const [showPass,  setShowPass]  = useState(false)
   const [error,     setError]     = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   // Where to send the user after login
   // ProtectedRoute saves the attempted path here
@@ -73,11 +75,16 @@ export default function Login() {
 
     if (!username.trim()) { setError('Username is required'); return }
     if (!password)        { setError('Password is required'); return }
+    if (!executeRecaptcha) {
+      setError('reCAPTCHA not ready. Please wait.')
+      return
+    }
 
     setIsLoading(true)
     try {
+      const captchaToken = await executeRecaptcha('login')
       // data = { token, username, email, role, expiresAt }
-      const data = await loginRequest(username.trim(), password)
+      const data = await loginRequest(username.trim(), password, captchaToken )
 
       // Pass just the token — AuthContext decodes it
       login(data.token)

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 
 // ─────────────────────────────────────────────
 // POST /api/Auth/register
@@ -10,13 +11,13 @@ import { useToast } from '../../context/ToastContext'
 // On success the user is automatically logged in
 // ─────────────────────────────────────────────
 
-async function registerRequest(username, email, password, confirmPassword) {
+async function registerRequest(username, email, password, confirmPassword, captchaToken) {
   const res = await fetch(
     `${import.meta.env.VITE_API_BASE_URL}/Auth/register`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password, confirmPassword }),
+      body: JSON.stringify({ username, email, password, confirmPassword, captchaToken }),
     }
   )
   const data = await res.json().catch(() => ({}))
@@ -162,6 +163,7 @@ export default function Register() {
   const [showConf, setShowConf] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const { executeRecaptcha } = useGoogleReCaptcha()
 
   // Already logged in — go home
   if (isLoggedIn) { navigate('/', { replace: true }); return null }
@@ -185,14 +187,20 @@ export default function Register() {
       setErrors(errs)
       return
     }
+    if (!executeRecaptcha) {
+      setError('reCAPTCHA not ready. Please wait.')
+      return
+    }
 
     setIsLoading(true)
     try {
+      const captchaToken = await executeRecaptcha('register')
       const data = await registerRequest(
         form.username.trim(),
         form.email.trim(),
         form.password,
         form.confirmPassword,
+        captchaToken
       )
       toast.success('Account created! Please sign in.')
       setTimeout(() => navigate('/login', { replace: true }), 800)
