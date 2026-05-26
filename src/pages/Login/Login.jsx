@@ -10,13 +10,13 @@ import { useGoogleReCaptcha } from 'react-google-recaptcha-v3'
 // Response: { token, username, email, role, expiresAt }
 // ─────────────────────────────────────────────
 
-async function loginRequest(username, password) {
+async function loginRequest(username, password, captchaToken) {
   const res = await fetch(
     `${import.meta.env.VITE_API_BASE_URL}/Auth/login`,
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ username, password, captchaToken }),
     }
   )
   const data = await res.json().catch(() => ({}))
