@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { AuthProvider }  from './context/AuthContext'
 import { CartProvider }  from './context/CartContext'
 import { ToastProvider } from './context/ToastContext'
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3'
 import App from './App'
 import './index.css'
 
