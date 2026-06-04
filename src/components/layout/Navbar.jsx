@@ -21,7 +21,7 @@ function DiamondMark({ size = 28 }) {
 function PhoneIcon() {
   return (
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.27 6.27l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.82a16 16 0 0 0 6.27 6.27l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
     </svg>
   )
 }
@@ -120,10 +120,10 @@ function BadgeIcon() {
 // ─────────────────────────────────────────────
 
 const NAV_LINKS = [
-  { label: 'All Stones', to: '/',               icon: HomeIcon  },
-  { label: 'Natural',    to: '/?natural=true',   icon: LeafIcon  },
-  { label: 'Certified',  to: '/?certified=true', icon: BadgeIcon },
-  { label: 'Contact',    to: '/contact',         icon: PhoneIcon  },
+  { label: 'All Stones', to: '/', icon: HomeIcon },
+  { label: 'Natural', to: '/?natural=true', icon: LeafIcon },
+  { label: 'Certified', to: '/?certified=true', icon: BadgeIcon },
+  { label: 'Contact', to: '/contact', icon: PhoneIcon },
 ]
 
 const navLinkStyle = (isActive) => ({
@@ -170,11 +170,11 @@ function Avatar({ username, size = 28 }) {
 
 export default function Navbar({ theme, onToggleTheme }) {
   const { isAdmin, isLoggedIn, user, logout } = useAuth()
-  const navigate  = useNavigate()
-  const location  = useLocation()
+  const navigate = useNavigate()
+  const location = useLocation()
 
-  const [menuOpen,  setMenuOpen]  = useState(false)
-  const [scrolled,  setScrolled]  = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [scrolled, setScrolled] = useState(false)
   const navRef = useRef(null)
 
   useEffect(() => { setMenuOpen(false) }, [location])
@@ -227,38 +227,27 @@ export default function Navbar({ theme, onToggleTheme }) {
       }}>
 
         {/* ── Logo ── */}
-        <Link to="/" style={{ display:'flex',alignItems:'center',gap:'9px',textDecoration:'none',flexShrink:0 }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '9px', textDecoration: 'none', flexShrink: 0 }}>
           <DiamondMark size={28} />
-          <span style={{ display:'flex',flexDirection:'column',lineHeight:1 }}>
-            <span style={{ fontFamily:'var(--font-display)',fontSize:'19px',fontWeight:600,color:'var(--text-primary)',letterSpacing:'0.02em' }}>
+          <span style={{ display: 'flex', flexDirection: 'column', lineHeight: 1 }}>
+            <span style={{ fontFamily: 'var(--font-display)', fontSize: '19px', fontWeight: 600, color: 'var(--text-primary)', letterSpacing: '0.02em' }}>
               GMSTONES
             </span>
-            <span style={{ fontSize:'8.5px',letterSpacing:'0.16em',textTransform:'uppercase',color:'var(--gold-500)',fontWeight:500,marginTop:'1px' }}>
+            <span style={{ fontSize: '8.5px', letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--gold-500)', fontWeight: 500, marginTop: '1px' }}>
               Fine Gemstones
             </span>
           </span>
         </Link>
 
         {/* ── Desktop nav links ── */}
-        <div className="nav-links" style={{ display:'flex',alignItems:'center',gap:'2px',flex:1 }}>
+        <div className="nav-links" style={{ display: 'flex', alignItems: 'center', gap: '2px', flex: 1 }}>
           {NAV_LINKS.map(({ label, to, icon: Icon }) => (
             <NavLink
               key={label}
               to={to}
               end={to === '/'}
               style={({ isActive }) => navLinkStyle(isActive)}
-              onMouseEnter={e => {
-                if (!e.currentTarget.getAttribute('aria-current')) {
-                  e.currentTarget.style.background = 'var(--surface-2)'
-                  e.currentTarget.style.color = 'var(--text-primary)'
-                }
-              }}
-              onMouseLeave={e => {
-                if (!e.currentTarget.getAttribute('aria-current')) {
-                  e.currentTarget.style.background = 'transparent'
-                  e.currentTarget.style.color = 'var(--text-secondary)'
-                }
-              }}
+              className="nav-link-item"
             >
               <Icon />
               {label}
@@ -267,25 +256,25 @@ export default function Navbar({ theme, onToggleTheme }) {
         </div>
 
         {/* ── Right actions ── */}
-        <div style={{ display:'flex',alignItems:'center',gap:'6px',flexShrink:0 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0 }}>
 
           {/* Theme toggle */}
           <button
             onClick={onToggleTheme}
             aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
             style={{
-              width:'34px', height:'34px',
-              borderRadius:'var(--radius-sm)',
-              border:'1px solid var(--border)',
-              background:'var(--surface-2)',
-              cursor:'pointer',
-              display:'flex', alignItems:'center', justifyContent:'center',
-              color:'var(--text-secondary)',
-              transition:'all 0.15s',
+              width: '34px', height: '34px',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border)',
+              background: 'var(--surface-2)',
+              cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              color: 'var(--text-secondary)',
+              transition: 'all 0.15s',
               flexShrink: 0,
             }}
-            onMouseEnter={e => { e.currentTarget.style.background='var(--surface-3)'; e.currentTarget.style.color='var(--text-primary)' }}
-            onMouseLeave={e => { e.currentTarget.style.background='var(--surface-2)'; e.currentTarget.style.color='var(--text-secondary)' }}
+            onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-3)'; e.currentTarget.style.color = 'var(--text-primary)' }}
+            onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--text-secondary)' }}
           >
             {theme === 'dark' ? <SunIcon /> : <MoonIcon />}
           </button>
@@ -296,18 +285,18 @@ export default function Navbar({ theme, onToggleTheme }) {
               to="/gemstones/create"
               className="nav-add-btn"
               style={{
-                display:'flex', alignItems:'center', gap:'5px',
-                padding:'7px 13px',
-                borderRadius:'var(--radius-sm)',
-                background:'var(--gem-500)',
-                color:'#fff',
-                fontSize:'13px', fontWeight:500,
-                textDecoration:'none',
-                transition:'background 0.15s, transform 0.1s',
-                whiteSpace:'nowrap',
+                display: 'flex', alignItems: 'center', gap: '5px',
+                padding: '7px 13px',
+                borderRadius: 'var(--radius-sm)',
+                background: 'var(--gem-500)',
+                color: '#fff',
+                fontSize: '13px', fontWeight: 500,
+                textDecoration: 'none',
+                transition: 'background 0.15s, transform 0.1s',
+                whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background='var(--gem-400)'; e.currentTarget.style.transform='translateY(-1px)' }}
-              onMouseLeave={e => { e.currentTarget.style.background='var(--gem-500)'; e.currentTarget.style.transform='translateY(0)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--gem-400)'; e.currentTarget.style.transform = 'translateY(-1px)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--gem-500)'; e.currentTarget.style.transform = 'translateY(0)' }}
             >
               <PlusIcon /> Add Stone
             </Link>
@@ -316,21 +305,21 @@ export default function Navbar({ theme, onToggleTheme }) {
           {/* ── User pill — shown when logged in (admin or user) ── */}
           {isLoggedIn && (
             <div style={{
-              display:'flex', alignItems:'center', gap:'7px',
-              padding:'4px 10px 4px 5px',
-              borderRadius:'99px',
-              border:'1px solid var(--border)',
-              background:'var(--surface-1)',
+              display: 'flex', alignItems: 'center', gap: '7px',
+              padding: '4px 10px 4px 5px',
+              borderRadius: '99px',
+              border: '1px solid var(--border)',
+              background: 'var(--surface-1)',
               flexShrink: 0,
             }}>
               <Avatar username={user?.username} size={24} />
               <span className="nav-username" style={{
-                fontSize:'13px', fontWeight:500,
-                color:'var(--text-primary)',
-                maxWidth:'90px',
-                overflow:'hidden',
-                textOverflow:'ellipsis',
-                whiteSpace:'nowrap',
+                fontSize: '13px', fontWeight: 500,
+                color: 'var(--text-primary)',
+                maxWidth: '90px',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
               }}>
                 {user?.username}
               </span>
@@ -342,19 +331,19 @@ export default function Navbar({ theme, onToggleTheme }) {
             <Link
               to="/login"
               style={{
-                display:'flex', alignItems:'center', gap:'6px',
-                padding:'7px 13px',
-                borderRadius:'var(--radius-sm)',
-                border:'1px solid var(--border)',
-                background:'var(--surface-0)',
-                color:'var(--text-secondary)',
-                fontSize:'13px', fontWeight:500,
-                textDecoration:'none',
-                transition:'all 0.15s',
-                whiteSpace:'nowrap',
+                display: 'flex', alignItems: 'center', gap: '6px',
+                padding: '7px 13px',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid var(--border)',
+                background: 'var(--surface-0)',
+                color: 'var(--text-secondary)',
+                fontSize: '13px', fontWeight: 500,
+                textDecoration: 'none',
+                transition: 'all 0.15s',
+                whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background='var(--surface-2)'; e.currentTarget.style.color='var(--text-primary)'; e.currentTarget.style.borderColor='var(--border-strong)' }}
-              onMouseLeave={e => { e.currentTarget.style.background='var(--surface-0)'; e.currentTarget.style.color='var(--text-secondary)'; e.currentTarget.style.borderColor='var(--border)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'var(--surface-2)'; e.currentTarget.style.color = 'var(--text-primary)'; e.currentTarget.style.borderColor = 'var(--border-strong)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-0)'; e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)' }}
             >
               <UserIcon /> Login
             </Link>
@@ -366,19 +355,19 @@ export default function Navbar({ theme, onToggleTheme }) {
               onClick={handleLogout}
               className="nav-logout-btn"
               style={{
-                display:'flex', alignItems:'center', gap:'6px',
-                padding:'7px 13px',
-                borderRadius:'var(--radius-sm)',
-                border:'1px solid var(--border)',
-                background:'var(--surface-0)',
-                color:'var(--text-secondary)',
-                fontSize:'13px', fontWeight:500,
-                cursor:'pointer',
-                transition:'all 0.15s',
-                whiteSpace:'nowrap',
+                display: 'flex', alignItems: 'center', gap: '6px',
+                padding: '7px 13px',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid var(--border)',
+                background: 'var(--surface-0)',
+                color: 'var(--text-secondary)',
+                fontSize: '13px', fontWeight: 500,
+                cursor: 'pointer',
+                transition: 'all 0.15s',
+                whiteSpace: 'nowrap',
               }}
-              onMouseEnter={e => { e.currentTarget.style.background='#fff1f2'; e.currentTarget.style.color='#e03131'; e.currentTarget.style.borderColor='#fca5a5' }}
-              onMouseLeave={e => { e.currentTarget.style.background='var(--surface-0)'; e.currentTarget.style.color='var(--text-secondary)'; e.currentTarget.style.borderColor='var(--border)' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#fff1f2'; e.currentTarget.style.color = '#e03131'; e.currentTarget.style.borderColor = '#fca5a5' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'var(--surface-0)'; e.currentTarget.style.color = 'var(--text-secondary)'; e.currentTarget.style.borderColor = 'var(--border)' }}
             >
               <LogOutIcon /> Logout
             </button>
@@ -391,14 +380,14 @@ export default function Navbar({ theme, onToggleTheme }) {
             aria-expanded={menuOpen}
             className="mobile-menu-btn"
             style={{
-              display:'none',
-              width:'34px', height:'34px',
-              borderRadius:'var(--radius-sm)',
-              border:'1px solid var(--border)',
-              background:'transparent',
-              cursor:'pointer',
-              alignItems:'center', justifyContent:'center',
-              color:'var(--text-primary)',
+              display: 'none',
+              width: '34px', height: '34px',
+              borderRadius: 'var(--radius-sm)',
+              border: '1px solid var(--border)',
+              background: 'transparent',
+              cursor: 'pointer',
+              alignItems: 'center', justifyContent: 'center',
+              color: 'var(--text-primary)',
             }}
           >
             <MenuIcon open={menuOpen} />
@@ -410,29 +399,29 @@ export default function Navbar({ theme, onToggleTheme }) {
       {/* ── Mobile menu ── */}
       {menuOpen && (
         <div style={{
-          position:'absolute',
-          top:'var(--nav-height)',
-          left:0, right:0,
-          background:'var(--surface-0)',
-          borderBottom:'1px solid var(--border)',
-          boxShadow:'var(--shadow-md)',
-          zIndex:99,
+          position: 'absolute',
+          top: 'var(--nav-height)',
+          left: 0, right: 0,
+          background: 'var(--surface-0)',
+          borderBottom: '1px solid var(--border)',
+          boxShadow: 'var(--shadow-md)',
+          zIndex: 99,
         }}>
 
           {/* User info strip at top of mobile menu */}
           {isLoggedIn && (
             <div style={{
-              display:'flex', alignItems:'center', gap:'10px',
-              padding:'14px 20px',
-              borderBottom:'1px solid var(--border)',
-              background:'var(--surface-1)',
+              display: 'flex', alignItems: 'center', gap: '10px',
+              padding: '14px 20px',
+              borderBottom: '1px solid var(--border)',
+              background: 'var(--surface-1)',
             }}>
               <Avatar username={user?.username} size={32} />
               <div>
-                <p style={{ fontSize:'14px',fontWeight:600,color:'var(--text-primary)',margin:0 }}>
+                <p style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-primary)', margin: 0 }}>
                   {user?.username}
                 </p>
-                <p style={{ fontSize:'11px',color:'var(--text-muted)',margin:0,marginTop:'1px',textTransform:'capitalize' }}>
+                <p style={{ fontSize: '11px', color: 'var(--text-muted)', margin: 0, marginTop: '1px', textTransform: 'capitalize' }}>
                   {user?.role || 'Member'}
                 </p>
               </div>
@@ -440,22 +429,22 @@ export default function Navbar({ theme, onToggleTheme }) {
           )}
 
           {/* Nav links */}
-          <div style={{ padding:'8px 12px' }}>
+          <div style={{ padding: '8px 12px' }}>
             {NAV_LINKS.map(({ label, to, icon: Icon }) => (
               <NavLink
                 key={label}
                 to={to}
                 end={to === '/'}
                 style={({ isActive }) => ({
-                  display:'flex', alignItems:'center', gap:'10px',
-                  padding:'11px 12px',
-                  borderRadius:'var(--radius-sm)',
-                  fontSize:'15px', fontWeight:500,
-                  textDecoration:'none',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '11px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '15px', fontWeight: 500,
+                  textDecoration: 'none',
                   color: isActive ? 'var(--gem-500)' : 'var(--text-secondary)',
                   background: isActive ? 'var(--gem-50)' : 'transparent',
                   borderLeft: isActive ? '3px solid var(--gem-400)' : '3px solid transparent',
-                  marginBottom:'2px',
+                  marginBottom: '2px',
                 })}
               >
                 <Icon />
@@ -466,20 +455,20 @@ export default function Navbar({ theme, onToggleTheme }) {
 
           {/* Admin section */}
           {isAdmin && (
-            <div style={{ padding:'0 12px 8px', borderTop:'1px solid var(--border)', paddingTop:'8px' }}>
-              <p style={{ fontSize:'10px',color:'var(--text-muted)',fontWeight:600,letterSpacing:'0.1em',textTransform:'uppercase',padding:'4px 12px 8px' }}>
+            <div style={{ padding: '0 12px 8px', borderTop: '1px solid var(--border)', paddingTop: '8px' }}>
+              <p style={{ fontSize: '10px', color: 'var(--text-muted)', fontWeight: 600, letterSpacing: '0.1em', textTransform: 'uppercase', padding: '4px 12px 8px' }}>
                 Admin
               </p>
               <Link
                 to="/gemstones/create"
                 style={{
-                  display:'flex', alignItems:'center', gap:'10px',
-                  padding:'11px 12px',
-                  borderRadius:'var(--radius-sm)',
-                  fontSize:'15px', fontWeight:500,
-                  color:'var(--gem-500)', textDecoration:'none',
-                  background:'var(--gem-50)',
-                  border:'1px solid var(--gem-200)',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '11px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '15px', fontWeight: 500,
+                  color: 'var(--gem-500)', textDecoration: 'none',
+                  background: 'var(--gem-50)',
+                  border: '1px solid var(--gem-200)',
                 }}
               >
                 <PlusIcon /> Add New Gemstone
@@ -488,19 +477,19 @@ export default function Navbar({ theme, onToggleTheme }) {
           )}
 
           {/* Auth section */}
-          <div style={{ padding:'0 12px 12px', borderTop:'1px solid var(--border)', paddingTop:'8px' }}>
+          <div style={{ padding: '0 12px 12px', borderTop: '1px solid var(--border)', paddingTop: '8px' }}>
             {isLoggedIn ? (
               <button
                 onClick={handleLogout}
                 style={{
-                  display:'flex', alignItems:'center', gap:'10px',
-                  width:'100%',
-                  padding:'11px 12px',
-                  borderRadius:'var(--radius-sm)',
-                  fontSize:'15px', fontWeight:500,
-                  color:'#e03131', background:'#fff1f2',
-                  border:'1px solid #fca5a5',
-                  cursor:'pointer', textAlign:'left',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  width: '100%',
+                  padding: '11px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '15px', fontWeight: 500,
+                  color: '#e03131', background: '#fff1f2',
+                  border: '1px solid #fca5a5',
+                  cursor: 'pointer', textAlign: 'left',
                 }}
               >
                 <LogOutIcon /> Sign out
@@ -509,11 +498,11 @@ export default function Navbar({ theme, onToggleTheme }) {
               <Link
                 to="/login"
                 style={{
-                  display:'flex', alignItems:'center', gap:'10px',
-                  padding:'11px 12px',
-                  borderRadius:'var(--radius-sm)',
-                  fontSize:'15px', fontWeight:500,
-                  color:'var(--text-secondary)', textDecoration:'none',
+                  display: 'flex', alignItems: 'center', gap: '10px',
+                  padding: '11px 12px',
+                  borderRadius: 'var(--radius-sm)',
+                  fontSize: '15px', fontWeight: 500,
+                  color: 'var(--text-secondary)', textDecoration: 'none',
                 }}
               >
                 <UserIcon /> Login
@@ -539,7 +528,17 @@ export default function Navbar({ theme, onToggleTheme }) {
           from { opacity:0; transform:translateY(-6px); }
           to   { opacity:1; transform:translateY(0); }
         }
-      `}</style>
+          .nav-link-item:hover {
+           background: var(--surface-2) !important;
+           color: var(--text-primary) !important;
+         }
+        .nav-link-item[aria-current="page"] {
+         background: var(--gem-50) !important;
+        color: var(--gem-500) !important;
+          }
+      `
+
+      }</style>
     </header>
   )
 }
