@@ -8,6 +8,7 @@ import Cart from '../pages/Cart/Cart'
 import ProtectedRoute from './ProtectedRoute'
 import Login from '../pages/Login/Login'
 import { Navigate } from 'react-router-dom'
+import Contact from '../pages/Contact/Contact'
 
 export default function AppRoutes() {
   return (
@@ -17,6 +18,7 @@ export default function AppRoutes() {
       <Route path="/gemstones/:id" element={<GemStoneDetail />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/contact" element={<Contact />} />
 
       {/* Admin only */}
       <Route path="/gemstones/create" element={<ProtectedRoute><GemStoneCreate /></ProtectedRoute>} />
